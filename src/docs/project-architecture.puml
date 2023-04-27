@@ -6,14 +6,15 @@ actor User
 box front-end
     participant WebPage
 
-    User -> WebPage : inputs link and image
+    User -> WebPage : inputs link, image and language
 
-    WebPage -> ChatGPT_API: requests copyright text
-    ChatGPT_API -> WebPage: response with copyright text
 end box
 
 box back-end
-    WebPage -> CreateVideo_API: requests custom video, seding text and image
+    WebPage -> CreateVideo_API: requests custom video, seding link and image
+    
+    CreateVideo_API -> ChatGPT_API: requests copyright text
+    ChatGPT_API -> CreateVideo_API: response with copyright tex
     
     CreateVideo_API -> CreateNarration_API: requests custom audio, seding text
     CreateNarration_API -> CreateVideo_API: response with custom audio
