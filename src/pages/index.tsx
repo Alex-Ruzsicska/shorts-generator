@@ -23,7 +23,7 @@ export default function Home() {
     (async () => {
       if (isSubmitting) {
         const message = `Escreva um texto para vender o produto deste link: ${link}`;
-        const answer = await fetchChatGptAnswer(message);
+        const { answer } = await fetchChatGptAnswer(message);
 
         setText(answer ?? 'no answer');
       }
