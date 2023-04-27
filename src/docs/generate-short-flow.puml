@@ -1,0 +1,15 @@
+@startuml Generate short functions flow
+title Generate short functions flow
+
+generateShort -> storeImageS3 : image
+storeImageS3 -> generateShort : image stored
+
+generateShort -> generateNarrationText : product link
+generateNarrationText -> generateShort : narration text
+
+generateShort -> generateNarrationAudio : narration text
+generateNarrationAudio -> generateShort : narration audio
+
+generateShort -> createVideo : image and narration text
+createVideo -> generateShort : video download link
+@enduml
