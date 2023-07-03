@@ -81,8 +81,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     upload.array('images')(req, res, async (err) => {
         const id = uuidv4();
         const folder = `${id}/`
-        const audio = `${process.env.FILE_SYSTEM}${id}.mp3`
-        const video = `${process.env.FILE_SYSTEM}${id}.mp4`
+        const audio = `${process.env.FILE_SYSTEM_FOLDER}${id}.mp3`
+        const video = `${process.env.FILE_SYSTEM_FOLDER}${id}.mp4`
 
         console.log("HERE: ", audio, video);
 
