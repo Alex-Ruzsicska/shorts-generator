@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/generateVideo.ts": {
+    "pages/api/generateVideo.ts": {
       "memory": 3008,
       "maxDuration": 60
     },
