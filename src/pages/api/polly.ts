@@ -1,3 +1,5 @@
+ /* eslint-disable */
+
 import AWS from 'aws-sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 

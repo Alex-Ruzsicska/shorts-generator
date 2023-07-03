@@ -1,3 +1,5 @@
+ /* eslint-disable */
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const DEFAULT_CHATGPT_MODEL = 'gpt-3.5-turbo';

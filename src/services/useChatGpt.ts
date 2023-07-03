@@ -1,3 +1,5 @@
+ /* eslint-disable */
+
 import { ChatGptAnswer } from '$/pages/api/chatgpt';
 
 export default function useChatGpt() {

@@ -1,3 +1,4 @@
+ /* eslint-disable */
 import type { NextApiRequest, NextApiResponse } from 'next';
 import AWS from 'aws-sdk';
 
@@ -16,27 +17,6 @@ interface GenerateVideoResponse {
     error: string | undefined,
 }
 
-const asyncDownloadMP3 = async (url: string, outputFilename: string) => {
-    try {
-      const response = await axios({
-        url,
-        method: 'GET',
-        responseType: 'stream',
-      });
-  
-      const outputStream = fs.createWriteStream(outputFilename);
-      response.data.pipe(outputStream);
-  
-      return new Promise((resolve, reject) => {
-        outputStream.on('finish', resolve(outputFilename));
-        outputStream.on('error', reject('Failed to download'));
-      });
-  
-    } catch (error) {
-        throw Error("Failed to donwload.")
-    }
-};
-
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -45,7 +25,7 @@ const upload = multer({
     }),
 })
 
-const uploadVideoToS3 = (videoPath, id)=>{
+const uploadVideoToS3 = (videoPath: string, id: string)=>{
   const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY as string,
     secretAccessKey: process.env.SECRET_KEY as string

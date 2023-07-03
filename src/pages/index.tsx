@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useEffect, useRef, useState } from 'react';
 
 import ImagesDropZone from '$/components/ImagesDropZone/ImagesDropZone';

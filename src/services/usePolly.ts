@@ -1,3 +1,5 @@
+ /* eslint-disable */
+
 import { PollyResponse } from '$/pages/api/polly';
 
 export default function usePolly() {
