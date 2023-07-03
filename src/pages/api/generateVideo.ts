@@ -20,7 +20,7 @@ interface GenerateVideoResponse {
 
 const upload = multer({
     storage: multer.diskStorage({
-        destination: './temp/uploads',
+        destination: process.env.SYSTEM_FOLDER,
         filename: (req, file, cb) => cb(null, file.originalname),
     }),
 })
