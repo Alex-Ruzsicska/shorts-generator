@@ -8,7 +8,7 @@ const mergeAudioAndImages = async (audioUrl, imageUrls, outputFilename) => {
     const command = ffmpeg();
 
     imageUrls.forEach((imageUrl) => {
-      command.input(imageUrl).loop(25);
+      command.input(imageUrl).loop(40);
     });
 
     command.input(audioUrl);
