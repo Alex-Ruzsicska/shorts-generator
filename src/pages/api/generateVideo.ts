@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         const audioUrl = req.body.audio
         // const audioUri =  await asyncDownloadMP3(audioUrl, audio);        
-        const imagesPaths = req.files.map((image)=>`./${image.path}`);
+        const imagesPaths = req.files.map((image)=>`${image.path}`);
 
         try{
             const videoUri = await mergeAudioAndImages(audioUrl, imagesPaths, video);
