@@ -1,58 +1,143 @@
+import React, { useEffect, useRef, useState } from 'react';
+
+import ImagesDropZone from '$/components/ImagesDropZone/ImagesDropZone';
 import useChatGpt from '$/services/useChatGpt';
-import { useEffect, useState } from 'react';
+import useGenerateVideo from '$/services/useGenerateVideo';
+import usePolly from '$/services/usePolly';
+import {
+  Autocomplete,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  withStyles,
+  CircularProgress,
+} from '@mui/material';
+import { File } from 'buffer';
 // import { string } from 'yup';
 
-export default function Home() {
-  const [link, setLink] = useState('');
+import ReactPlayer from 'react-player';
+
+import ImageInput from '../components/ImageInput';
+
+import styles from '../styles.module.css';
+
+import DownloadButton from '../components/downloadButton';
+
+function Home() {
+  const [url, setUrl] = useState('');
   const [text, setText] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState<File[]>([]);
 
-  // const validateLinkValue = string().url();
+  const isButtonEnabled = text && images && images.length && !loading;
 
-  const { isChatGptLoading, fetchChatGptAnswer } = useChatGpt();
+  const { fetchChatGptAnswer } = useChatGpt();
+  const { fetchAudioUrl } = usePolly();
+  const { generateVideo } = useGenerateVideo();
 
-  const onChangeLink = (newValue: string) => {
-    setLink(newValue);
-  };
+  const generateAd = async (productLink: string, productImages) => {
+    setLoading(true);
+    const message = `Escreva um texto de até 50 palavras pra vender este produto: ${productLink}`;
+    const { answer } = await fetchChatGptAnswer(message);
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-  };
+    console.log('ANSWER: ', answer);
 
-  useEffect(() => {
-    (async () => {
-      if (isSubmitting) {
-        const message = `Escreva um texto para vender o produto deste link: ${link}`;
-        const { answer } = await fetchChatGptAnswer(message);
+    if (typeof answer === 'string') {
+      const audioUrl = (await fetchAudioUrl(answer)).audioUrl as string;
 
-        setText(answer ?? 'no answer');
+      const { data } = await generateVideo(audioUrl, productImages, answer);
+
+      console.log('audio: ', data);
+
+      if (data && data.url) {
+        setUrl(data.url);
       }
-    })();
-  }, [isSubmitting]);
+
+      console.log(audioUrl);
+    }
+
+    setLoading(false);
+  };
+
+  // useEffect(() => {
+  //   console.log(link);
+  //   if (link) {
+  //     generateAd(link);
+  //   }
+  // }, [link]);
 
   return (
-    <main>
-      <div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
+    <div className={styles.mainContainer}>
+      <div className={styles.headerContainer}>
+        <h1 className={styles.title}>Gerador de Anúncios</h1>
+        <h2 className={styles.subTitle}>
+          Insira o link de um produto, uma imagem e gere automaticamente um vídeo anúncio!
+        </h2>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '100px',
+        }}
+      >
+        <div className={styles.inputContainer}>
+          <h2 className={styles.subTitle}>1. Insira o link do produto:</h2>
+          <input
+            type={'text'}
+            className={styles.input}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setText(event.target.value);
+            }}
+            value={text}
+          />
+        </div>
+        <div className={styles.inputContainer}>
+          <h2 className={styles.subTitle}>2. Selecione sua imagem:</h2>
+          <ImageInput onChange={setImages} />
+        </div>
+        <div
+          style={{
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            display: 'flex',
           }}
         >
-          <fieldset>
-            <div>
-              <label>link:</label>
-              <input
-                onChange={(e) => onChangeLink(e.target.value)}
-                value={link}
-                style={{ backgroundColor: 'blue' }}
-              />
-            </div>
-          </fieldset>
-          <input type='submit' disabled={isSubmitting} />
-        </form>
-        <h1>{text}</h1>
+          <Button
+            sx={{
+              color: 'white',
+              backgroundColor: isButtonEnabled ? 'black' : 'lightGray',
+              height: '60px',
+            }}
+            onClick={async () => {
+              await generateAd(text, images);
+            }}
+            disabled={!isButtonEnabled}
+          >
+            GERAR ANÚNCIO
+          </Button>
+        </div>
       </div>
-    </main>
+      <div
+        style={{
+          // backgroundColor: 'white',
+          height: '100%',
+          padding: '50px',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {loading ? (
+          <CircularProgress hidden={!loading} />
+        ) : url ? (
+          <DownloadButton url={url} filename={'anuncio.mp4'} />
+        ) : (
+          <></>
+        )}
+      </div>
+    </div>
   );
 }
+
+export default Home;
