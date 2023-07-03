@@ -15,8 +15,8 @@ import { createVideoFromMP3AndImages } from "../../../utils/mergeAudioAndImages4
 import AWS from 'aws-sdk';
 
 AWS.config.credentials = new AWS.Credentials(
-    process.env.AWS_ACCESS_KEY as string,
-    process.env.AWS_SECRET_KEY as string
+    process.env.32_ACCESS_KEY as string,
+    process.env.32_SECRET_KEY as string
 )
 
 interface GenerateVideoResponse {
@@ -34,7 +34,7 @@ const upload = multer({
 const uploadVideoToS3 = async (videoPath)=>{
     const s3 = new AWS.S3({
         params: {
-          Bucket: process.env.AWS_VIDEOS_BUCKET
+          Bucket: process.env.32_VIDEOS_BUCKET
         }
       });
 

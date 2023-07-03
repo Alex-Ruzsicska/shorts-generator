@@ -2,11 +2,11 @@ import AWS from 'aws-sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 AWS.config.credentials = new AWS.Credentials(
-    process.env.AWS_ACCESS_KEY as string,
-    process.env.AWS_SECRET_KEY as string
+    process.env.32_ACCESS_KEY as string,
+    process.env.32_SECRET_KEY as string
 )
 
-AWS.config.region = process.env.AWS_REGION;
+AWS.config.region = process.env.32_REGION;
 
 const getAudioUrl = (text: string)=>{
     const input = {

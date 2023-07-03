@@ -47,14 +47,14 @@ const upload = multer({
 
 const uploadVideoToS3 = (videoPath, id)=>{
   const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY as string,
-    secretAccessKey: process.env.AWS_SECRET_KEY as string
+    accessKeyId: process.env.32_ACCESS_KEY as string,
+    secretAccessKey: process.env.32_SECRET_KEY as string
   })
 
   const fileContent = fs.readFileSync(videoPath);
 
   const params = {
-    Bucket: process.env.AWS_VIDEOS_BUCKET,
+    Bucket: process.env.32_VIDEOS_BUCKET,
     Key: `${id}.mp4`,
     Body: fileContent,
     ACL: 'public-read',
@@ -81,8 +81,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     upload.array('images')(req, res, async (err) => {
         const id = uuidv4();
         const folder = `${id}/`
-        const audio = `${process.env.FILE_SYSTEM_FOLDER}${id}.mp3`
-        const video = `${process.env.FILE_SYSTEM_FOLDER}${id}.mp4`
+        const audio = `${process.env.32_SYSTEM_FOLDER}${id}.mp3`
+        const video = `${process.env.32_SYSTEM_FOLDER}${id}.mp4`
 
         console.log("HERE: ", audio, video);
 
