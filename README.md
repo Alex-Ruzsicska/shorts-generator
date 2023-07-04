@@ -3,7 +3,9 @@
 Projetos 2 - Gerador de vídeo/anúncio
 </h1>
 
-## Teste aqui!: [Gerador de Anúncios](https://shorts-generator-32qn06o9w-alex-ruzsicska-s-team.vercel.app/)
+## [Vídeo Demonstração](https://youtu.be/BQpid9roJA8)
+## [Teste aqui](https://shorts-generator-ten.vercel.app/)
+  - Algumas fotos podem quebrar o ffmpeg no ambiente de produção, caso haja problemas em gerar o vídeo, por favor enviar uma imagem diferente.
 
 ## Descrição
 
