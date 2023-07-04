@@ -1,38 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">
+<br>
+Projetos 2 - Gerador de vídeo/anúncio
+</h1>
 
-## Getting Started
+## Teste aqui!: [Gerador de Anúncios](https://shorts-generator-afwp7uu1g-alex-ruzsicska-s-team.vercel.app/)
 
-First, run the development server:
+## Descrição
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+<p align="start">Projeto desenvolvido para a disciplina de Projeto Integrado 2. Tendo como objetivo a construção de uma aplicação Web que seja capaz de gerar anúncios de produtos em vídeo automaticamente.</p>
+<p align="start">A aplicação possui dois inputs, um para a inserção do link de um produto e o segundo para seleção de uma imagem. Esses parâmetros são então utilizados para gerar um vídeo/anúncio, contendo uma narração em áudio e a imagem ao fundo.</p>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+[//]: # 'Add the features of your project here:'
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- **[FFmpeg](https://ffmpeg.org/)** — Ferramenta utilizada para manipular imagens, áudio e gera o vídeo .mp4.
+- **[ChatGPT](https://openai.com/chatgpt)** - IA utilizada para gerar o texto que será narrado.
+- **[Amazon Polly](https://aws.amazon.com/pt/polly/)** - Serviço utilizado para converter o texto gerado em uma narração .mp3.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Arquitetura
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<p align="start">A aplicação web é estruturada em um monorepo utilizando NextJs. Esta tecnologia permite a implementação de uma página web e de serverless functions no mesmo repositório. A página web principal se encontra no arquivo "/src/pages/index.tsx", enquando o back-end, ou seja, as funções serverless que estarão rodando no servidor e serão acessadas utilizando requisições HTTP estão na pasta "/src/pages/api/".</p>
 
-## Learn More
+<p align="start">A estrutura de interação entre front-end e back-end para gerar o vídeo pode ser visuzalisada no seguinde diagrama:</p>
 
-To learn more about Next.js, take a look at the following resources:
+<div>
+  <img src="https://i.imgur.com/ZOOct3Z.png" alt="demo" height="425">
+</div>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<br/>
+A nivel de código, as funções utilizadas para criar o vídeo são as seguintes:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **generateAd (/src/pages/index.tsx):**
+  Função responsável por receber as imagens, o link para o produto e chamar todas as outras funções envolvidas no processo de gerar o vídeo.
 
-## Deploy on Vercel
+- **fetchChatGptAnswer (/src/pages/api/generateVideo.ts):**
+  Função Serverless responsável por enviar uma requisição para a API do charGpt e retornar uma string com o conteúdo gerado pelo prompt inserido.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **fetchAudioUrl (/src/pages/api/polly.ts.ts):**
+  Função Serverless responsável por enviar uma string para o serviço Polly, da amazon AWS, e retornar uma URL para um arquivo no formato .mp3 contendo o áudio desta string sendo narrada.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **generateVideo (/src/pages/api/polly.ts.ts):**
+  Função Serverless responsável por recever as urls das imagens e do .mp3 da narração e utilizar as funções da biblioteca ffmpeg para gerar um vídeo. Este vídeo é salvo localmente e então enviado para um bucket s3 da Amazon. O link do vídeo neste bucket é disponibilizado para o usuário.
