@@ -83,6 +83,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
             console.log("urll: ", videoUrl)
 
+            fs.unlinkSync(videoUri)
+            
+            for(const image of imagesPaths){
+              fs.unlinkSync(image)
+            } 
+
             res.status(200).json({ url: videoUrl } as GenerateVideoResponse);
         }catch(error){
           res.status(500).json({ error } as GenerateVideoResponse);

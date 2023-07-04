@@ -1,15 +1,12 @@
 @startuml Generate short functions flow
-title Generate short functions flow
+title Generate Ad functions flow
 
-generateShort -> storeImageS3 : image
-storeImageS3 -> generateShort : image stored
+generateAd -> fetchChatGptAnswer : product link
+fetchChatGptAnswer -> generateAd : narration text
 
-generateShort -> generateNarrationText : product link
-generateNarrationText -> generateShort : narration text
+generateAd -> fetchAudioUrl : narration text
+fetchAudioUrl -> generateAd : narration audio
 
-generateShort -> generateNarrationAudio : narration text
-generateNarrationAudio -> generateShort : narration audio
-
-generateShort -> createVideo : image and narration text
-createVideo -> generateShort : video download link
+generateAd -> generateVideo : image and narration audio
+generateVideo -> generateAd : video download link
 @enduml
