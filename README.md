@@ -3,7 +3,7 @@
 Projetos 2 - Gerador de vídeo/anúncio
 </h1>
 
-## Teste aqui!: [Gerador de Anúncios](https://shorts-generator-afwp7uu1g-alex-ruzsicska-s-team.vercel.app/)
+## Teste aqui!: [Gerador de Anúncios](https://shorts-generator-32qn06o9w-alex-ruzsicska-s-team.vercel.app/)
 
 ## Descrição
 
